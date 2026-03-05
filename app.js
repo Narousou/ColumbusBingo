@@ -1,4 +1,4 @@
-const abc = 'abcdefghijklmnopqrstuvwxyz'.split('');
+const abc = 'abcdefghijklmnopqrstuvwxy'.split('');
 const bg = new Image();
 bg.src = "imgs/image.png";
 
@@ -20,7 +20,7 @@ class BingoCard{
 
 function createCard()
 {
-    var id = createID().split('');
+    var id = createID();
     var itemList = partItems();
     var index = 0;
 
@@ -55,17 +55,18 @@ function createID()
 {
     var files = [];
 
-    var id = "";
+    var id = [];
 
     for (let i = 0; i <= 25; i++)
     {
         if(i === 12){
             continue;
         }
-        var randomInt = getRandomInt(1,25)
-        id = id + abc[randomInt]
 
-        if (i === 25 && files[id] != nil)
+        var randomInt = getRandomInt(1,abc.length)
+        id.push(abc[randomInt])
+
+        if (i === 25 && files[id.join()] != nil)
         {
             id = "";
             i = 0
