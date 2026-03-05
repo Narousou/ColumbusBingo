@@ -47,7 +47,7 @@ function createCard()
     cardL.appendChild(bingoCard)
     
 
-    var
+
 }
 
 
