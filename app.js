@@ -45,13 +45,15 @@ function createCard()
 
     var NewBingoCard = new BingoCard("Player",bingoCard,id.join());
     cardL.appendChild(bingoCard)
+    
+
+    var
 }
 
 
 function createID()
 {
-    var fs = require('fs');
-    var files = fs.readdirSync('/cards/');
+    var files = [];
 
     var id = "";
 
