@@ -21,7 +21,7 @@ class BingoCard{
 function createCard()
 {
     var id = createID().split('');
-    var itemList = partItems;
+    var itemList = partItems();
     var index = 0;
 
     var bingoCard = document.createElement('canvas');
