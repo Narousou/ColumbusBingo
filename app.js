@@ -66,7 +66,7 @@ function createID()
         var randomInt = getRandomInt(1,abc.length)
         id.push(abc[randomInt])
 
-        if (i === 25 && files[id.join()] != nil)
+        if (i === 25 && files[id.join()] != null)
         {
             id = "";
             i = 0
