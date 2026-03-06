@@ -2,10 +2,18 @@ const abc = 'abcdefghijklmnopqrstuvwxy'.split('');
 const bg = new Image();
 bg.src = "imgs/image.png";
 
+const bItems = new Image();
+//bItems.src = "imgs/image.png";
+bItems.src = 'imgs/columbingo_transparent_1.png';
+
 const cardL = document.getElementById("card");
 
-let width = 300;
-let height = 300;
+const storage = new FileReader();
+
+let width = 360;
+let height = 360;
+let xoffset = 60;
+let yoffset = 310;
 
 
 class BingoCard{
@@ -17,94 +25,106 @@ class BingoCard{
     }
 }
 
+class Spot{
+    constructor(x,y,id)
+    {
+        this.x = x;
+        this.y = y;
+        this.id = id;
+    }
+}
 
 function createCard()
 {
-    var id = createID();
-    var itemList = partItems();
-    var index = 0;
+    var itemlist = spliceItems();
 
     var bingoCard = document.createElement('canvas');
     var ctx = bingoCard.getContext('2d');
+    
+    ctx.canvas.width = 1920;
+    ctx.canvas.height = 2160;
+    bingoCard.id = 'myCanvas'
+    ctx.drawImage(bg,0,0);
 
-    ctx.drawImage(bg,0,0)
-
-    for (let x = 0; x <= 5; x++)
+    var index = 0;
+    for (let ax = 0; ax <5; ax++)
     {
-        for (let y = 0; y <= 5; y++)
-        {
-            if (x === 3 && y === 3) 
+        for (let ay = 0; ay < 5; ay++)
+        {   
+            if (ax === 2 && ay === 2)
             {
-                continue;
+                ctx.drawImage(bItems,itemlist[24].x,itemlist[24].y, width,height,(ax*width + xoffset), (ay*height + yoffset),width,height);
             }
-            ctx.drawImage(itemList[id[index]],x*width,y*height)
-            index++;
+            else
+            {
+                ctx.drawImage(bItems,itemlist[index].x,itemlist[index].y, width,height,(ax*width + xoffset), (ay*height + yoffset),width,height);
+                index++;
+            }
+            
+            
         }
-        
     }
 
-    var NewBingoCard = new BingoCard("Player",bingoCard,id.join());
-    cardL.appendChild(bingoCard)
+
+    
+    if (cardL.hasChildNodes()) 
+    {
+        cardL.removeChild(cardL.children[0]);
+    }
+    cardL.appendChild(bingoCard);
     
 
-
 }
 
 
-function createID()
-{
-    var files = [];
+function spliceItems()
+{   
 
-    var id = [];
-
-    for (let i = 0; i <= 25; i++)
+    var itemIndex = 0;
+    var items = [];
+    
+    for (let x = 0; x < 5; x++)
     {
-        if(i === 12){
-            continue;
+        for (let y = 0; y < 5; y++)
+        {   
+            if (itemIndex === 12)
+            {
+                itemIndex++;
+                continue;
+            }
+            else
+            {
+                let a = new Spot((x *width + xoffset),(y*height + yoffset),abc[itemIndex]);
+                items.push(a);
+                itemIndex++;
+            }
+
         }
-
-        var randomInt = getRandomInt(1,abc.length)
-        id.push(abc[randomInt])
-
-        if (i === 25 && files[id.join()] != null)
-        {
-            id = "";
-            i = 0
-        }
-
     }
 
-    return id;
+    shuffle(items);
+
+    items.push(new Spot((2*width + xoffset),(2*height + yoffset)))
+
+
+    return items;
 }
 
+function shuffle(array) {
+  let currentIndex = array.length;
 
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
 
-function partItems()
-{
+    // Pick a remaining element...
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
 
-    var bItems = new Image();
-    bItems.src = 'imgs/"columbingo_transparent_1.png"'
-
-    var imgParts = [];
-    for (let x = 0; x <= 5; x++)
-    {
-        for (let y = 0; y <= 5; y++)
-        {
-            var canvas = document.createElement('canvas');
-            canvas.width = width;
-            canvas.height = height;
-
-            var context = canvas.getContext('2d');
-            context.drawImage(bItems, x*width,y*height,width,height,0,0,canvas.width,canvas.height);
-
-            imgParts[abc[imgParts.length + 1]] = canvas.toDataURL();
-        }
-        
-    }
-
-    return imgParts;
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
 }
-
 
 function getRandomInt(min, max) 
 {

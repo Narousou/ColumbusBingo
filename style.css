@@ -34,7 +34,6 @@ h1 {
 
   margin: auto;
   width: 90%;
-  border: 3px solid rgb(255, 255, 255);
   padding: 10px;
 }
 
@@ -50,3 +49,8 @@ body {
   place-items: center;
 }
 
+#myCanvas {  
+  width: 60%;
+  height: auto;  
+  place-items: center;
+}  
